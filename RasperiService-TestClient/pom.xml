@@ -11,5 +11,14 @@
 
     <artifactId>RasperiService-TestClient</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.23.2</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>

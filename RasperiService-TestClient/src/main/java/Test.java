@@ -19,7 +19,7 @@ public class Test {
         WebTarget target = client.target(getBaseURI());
 
         String response = target.path("rest").
-                path("hello").
+                path("hallo").
                 request().
                 accept(MediaType.TEXT_PLAIN).
                 get(Response.class)
@@ -27,11 +27,11 @@ public class Test {
 
 
         String plainAnswer =
-                target.path("rest").path("hello").request().accept(MediaType.TEXT_PLAIN).get(String.class);
+                target.path("rest").path("hallo").request().accept(MediaType.TEXT_PLAIN).get(String.class);
         String xmlAnswer =
-                target.path("rest").path("hello").request().accept(MediaType.TEXT_XML).get(String.class);
+                target.path("rest").path("hallo").request().accept(MediaType.TEXT_XML).get(String.class);
         String htmlAnswer=
-                target.path("rest").path("hello").request().accept(MediaType.TEXT_HTML).get(String.class);
+                target.path("rest").path("hallo").request().accept(MediaType.TEXT_HTML).get(String.class);
 
         System.out.println(response);
         System.out.println(plainAnswer);
@@ -40,6 +40,6 @@ public class Test {
     }
 
     private static URI getBaseURI() {
-        return UriBuilder.fromUri("http://localhost:8080/com.vogella.jersey.first").build();
+        return UriBuilder.fromUri("http://localhost:8888/rasperiService%2DService%2D1.0%2DSNAPSHOT/").build();
     }
 }
