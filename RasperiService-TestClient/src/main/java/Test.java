@@ -19,27 +19,21 @@ public class Test {
         WebTarget target = client.target(getBaseURI());
 
         String response = target.path("rest").
-                path("hallo").
+                path("hello/test").
                 request().
-                accept(MediaType.TEXT_PLAIN).
+                accept(MediaType.APPLICATION_JSON).
                 get(Response.class)
                 .toString();
 
 
         String plainAnswer =
-                target.path("rest").path("hallo").request().accept(MediaType.TEXT_PLAIN).get(String.class);
-        String xmlAnswer =
-                target.path("rest").path("hallo").request().accept(MediaType.TEXT_XML).get(String.class);
-        String htmlAnswer=
-                target.path("rest").path("hallo").request().accept(MediaType.TEXT_HTML).get(String.class);
+                target.path("rest").path("hello/test").request().accept(MediaType.APPLICATION_JSON).get(String.class);
 
         System.out.println(response);
         System.out.println(plainAnswer);
-        System.out.println(xmlAnswer);
-        System.out.println(htmlAnswer);
     }
 
     private static URI getBaseURI() {
-        return UriBuilder.fromUri("http://localhost:8888/rasperiService%2DService%2D1.0%2DSNAPSHOT/").build();
+        return UriBuilder.fromUri("http://localhost:8888/PiService/").build();
     }
 }

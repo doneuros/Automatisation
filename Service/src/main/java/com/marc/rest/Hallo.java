@@ -19,6 +19,7 @@ public class Hallo {
 
     @GET
     @Path("/{param}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getMsg(@PathParam("param") String msg) {
 
         String output = "Jersey say : " + msg;
