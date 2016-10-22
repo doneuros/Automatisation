@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,11 +35,8 @@ public class Hallo {
     @Path("test/{param}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMsg(@PathParam("param") String msg) {
-
         String output = "Jersey say : " + msg;
-
         return Response.status(200).entity(output).build();
-
     }
 
     @GET
@@ -46,41 +44,36 @@ public class Hallo {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWeather(@PathParam("param") String msg) {
         Weather weather = new Weather();
-
         try {
             URL url = getBaseURI(msg).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
-
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + conn.getResponseCode());
             }
             InputStream is = conn.getInputStream();
-
-
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.readValue(is, new TypeReference<Map<String,Object>>(){});
+            Map<String, Object> map = objectMapper.readValue(is, new TypeReference<Map<String, Object>>() {
+            });
             logger.info(map.toString());
-
-            weather.setTemprature(Double.parseDouble(((Map<String, Object>)map.get("main")).get("temp").toString()));
-            weather.setDescription((((Map<String, Object>)((ArrayList<Object>)map.get("weather")).get(0))).get("description").toString());
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return Response.status(200).entity("Temprature: "+weather.getTemprature()+" Description "+ weather.getDescription()).build();
-
-
+            weather.setTemprature(Double.parseDouble(((Map<String, Object>) map.get("main")).get("temp").toString()));
+            weather.setDescription((((Map<String, Object>) ((ArrayList<Object>) map.get("weather")).get(0))).get("description").toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return Response.status(200).entity(weatherResponse(weather)).build();
+    }
 
     private static URI getBaseURI(String town) {
         return UriBuilder.fromUri(urlStart + town + urlEnd).build();
     }
 
-
+    private String weatherResponse(Weather weather) {
+        return "Momentan entspricht das Wetter: " + weather.getDescription() + "\n"
+                + " es hat " + weather.getTempratureInCalcius() + " Celcius";
+    }
 }

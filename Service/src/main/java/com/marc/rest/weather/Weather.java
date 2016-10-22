@@ -1,16 +1,10 @@
 package com.marc.rest.weather;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.marc.rest.json.AbstractJSONClass;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
 
 /**
  * Created by marc on 20.10.16.
  */
-@XmlRootElement
 public class Weather extends AbstractJSONClass {
 
 
@@ -19,6 +13,10 @@ public class Weather extends AbstractJSONClass {
     private String description;
 
     public Weather() {
+    }
+
+    public double getTempratureInCalcius(){
+        return temprature-273.15;
     }
 
     public double getTemprature() {

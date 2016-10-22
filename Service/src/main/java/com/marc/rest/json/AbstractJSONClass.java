@@ -1,5 +1,6 @@
 package com.marc.rest.json;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 import java.util.HashMap;
@@ -15,5 +16,10 @@ public class AbstractJSONClass {
     @JsonAnySetter
     public void set(String name, Object value) {
         otherProperties.put(name, value);
+    }
+
+    @JsonAnyGetter
+    public Map<String,Object> any() {
+        return otherProperties;
     }
 }
