@@ -3,10 +3,7 @@ package com.marc.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -19,6 +16,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.marc.rest.cache.InternalCache;
+import com.marc.rest.connection.WeatherConnector;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,8 +27,9 @@ import com.marc.rest.weather.Weather;
 public class Hallo {
 
     final static Logger logger = Logger.getLogger(Hallo.class);
-    private static String urlStart = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private static String urlEnd = "&appid=738192430eb7328f8a5b9a7cbdab6b45";
+    private static InternalCache weatherCache = new InternalCache();
+    private WeatherConnector weatherConnector = new WeatherConnector();
+    private String homeLocation = "Karlsruhe";
 
     @GET
     @Path("test/{param}")
@@ -43,37 +43,45 @@ public class Hallo {
     @Path("/getWeather/{param}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWeather(@PathParam("param") String msg) {
-        Weather weather = new Weather();
-        try {
-            URL url = getBaseURI(msg).toURL();
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-            InputStream is = conn.getInputStream();
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.readValue(is, new TypeReference<Map<String, Object>>() {
-            });
-            logger.info(map.toString());
-            weather.setTemprature(Double.parseDouble(((Map<String, Object>) map.get("main")).get("temp").toString()));
-            weather.setDescription((((Map<String, Object>) ((ArrayList<Object>) map.get("weather")).get(0))).get("description").toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Response.status(200).entity(weatherResponse(weather)).build();
-    }
-
-    private static URI getBaseURI(String town) {
-        return UriBuilder.fromUri(urlStart + town + urlEnd).build();
+        return Response.status(200).entity(weatherResponse(getWeatherInternal(msg))).build();
     }
 
     private String weatherResponse(Weather weather) {
         return "Momentan entspricht das Wetter: " + weather.getDescription() + "\n"
                 + " es hat " + weather.getTempratureInCalcius() + " Celcius";
+    }
+
+    @GET
+    @Path("/getTemprature")
+    @Produces(MediaType.APPLICATION_JSON)
+    public double getTemprature(){
+        return getWeatherInternal(homeLocation).getTemprature();
+    }
+
+    @PUT
+    @Path("/postHomeLocation")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void changeHomeLocation(String location){
+        this.homeLocation = location;
+    }
+
+
+    @POST
+    @Path("/makeTee/location/{param}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void makeTee(@PathParam("param")String location){
+        
+    }
+
+    private Weather getWeatherInternal(String location){
+        Weather weather;
+        if(weatherCache.isCached(location)){
+            logger.info("Location LoadedFrom Cache");
+            weather = weatherCache.getWeather(location);
+        } else {
+            logger.info("Location LoadedFrom URL");
+            weather = weatherConnector.getWeather(location);
+        }
+        return weather;
     }
 }
