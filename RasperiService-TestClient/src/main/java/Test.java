@@ -16,24 +16,55 @@ public class Test {
 
         Client client = ClientBuilder.newClient(config);
 
+        client.target(UriBuilder.fromUri("http://localhost:8888/PiService/").build());
         WebTarget target = client.target(getBaseURI());
 
-        String response = target.path("rest").
-                path("hello/test").
-                request().
-                accept(MediaType.APPLICATION_JSON).
-                get(Response.class)
-                .toString();
+
+        Test.testGetMsg(target);
 
 
-        String plainAnswer =
-                target.path("rest").path("hello/test").request().accept(MediaType.APPLICATION_JSON).get(String.class);
 
-        System.out.println(response);
-        System.out.println(plainAnswer);
+
+
     }
 
     private static URI getBaseURI() {
         return UriBuilder.fromUri("http://localhost:8888/PiService/").build();
     }
+
+
+    /**
+     * Rest Call to http://localhost:8888/PiService/rest/service/test/Hallo
+     */
+    public static void testGetMsg(WebTarget target){
+        String response = target.path("rest/service/").
+                path("test/Hallo").
+                request().
+                accept(MediaType.APPLICATION_JSON).
+                get(Response.class)
+                .toString();
+        System.out.println(response);
+
+    }
+
+    /**
+     * Rest Call to http://localhost:8888/PiService/rest/hello/getWeather/London
+     */
+    public void testGetWeather(){
+
+    }
+
+    public void testGetTemprature(){
+
+    }
+
+    public void testChangeHomeLocation(){
+
+    }
+
+    public void testMakeTee(){
+
+    }
+
+
 }

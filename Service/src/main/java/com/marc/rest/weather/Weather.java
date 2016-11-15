@@ -15,6 +15,11 @@ public class Weather extends AbstractJSONClass {
     public Weather() {
     }
 
+    public Weather(double temprature, String description) {
+        this.temprature = temprature;
+        this.description = description;
+    }
+
     public double getTempratureInCalcius(){
         return temprature-273.15;
     }

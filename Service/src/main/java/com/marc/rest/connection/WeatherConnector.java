@@ -2,11 +2,9 @@ package com.marc.rest.connection;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marc.rest.Hallo;
 import com.marc.rest.weather.Weather;
 import org.apache.log4j.Logger;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.io.InputStream;

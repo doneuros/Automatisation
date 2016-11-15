@@ -15,7 +15,8 @@ public class InternalCache {
 
     public boolean isCached(String location){
         if(weatherMap.containsKey(location)){
-            if(Days.daysBetween(weatherMap.get(location).getCreated(), new DateTime()).getDays()>1){
+            if(Days.daysBetween(weatherMap.get(location).getCreated(), new DateTime()).getDays()>=1){
+
                 weatherMap.remove(location);
                 return false;
             } else {
@@ -31,7 +32,11 @@ public class InternalCache {
     }
 
     public Weather getWeather(String location){
-        return weatherMap.get(location).getWeather();
+        WeatherMeta result = weatherMap.get(location);
+        if(result == null){
+            return null;
+        }
+        return result.getWeather();
     }
 
 }

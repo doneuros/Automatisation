@@ -1,32 +1,20 @@
 package com.marc.rest;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
 
 import com.marc.rest.cache.InternalCache;
 import com.marc.rest.connection.WeatherConnector;
 import org.apache.log4j.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marc.rest.weather.Weather;
 
-@Path("/hello")
-public class Hallo {
+@Path("/service")
+public class TeeService {
 
-    final static Logger logger = Logger.getLogger(Hallo.class);
+    final static Logger logger = Logger.getLogger(TeeService.class);
     private static InternalCache weatherCache = new InternalCache();
     private WeatherConnector weatherConnector = new WeatherConnector();
     private String homeLocation = "Karlsruhe";
@@ -70,7 +58,7 @@ public class Hallo {
     @Path("/makeTee/location/{param}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void makeTee(@PathParam("param")String location){
-        
+
     }
 
     private Weather getWeatherInternal(String location){
