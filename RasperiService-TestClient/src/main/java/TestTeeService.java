@@ -9,7 +9,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 
-public class Test {
+public class TestTeeService {
 
     public static void main(String[] args) {
         ClientConfig config = new ClientConfig();
@@ -20,7 +20,7 @@ public class Test {
         WebTarget target = client.target(getBaseURI());
 
 
-        Test.testGetMsg(target);
+        //TestTeeService.testGetMsg(target);
 
 
 
@@ -33,19 +33,7 @@ public class Test {
     }
 
 
-    /**
-     * Rest Call to http://localhost:8888/PiService/rest/service/test/Hallo
-     */
-    public static void testGetMsg(WebTarget target){
-        String response = target.path("rest/tee/").
-                path("test/Hallo").
-                request().
-                accept(MediaType.APPLICATION_JSON).
-                get(Response.class)
-                .toString();
-        System.out.println(response);
 
-    }
 
     /**
      * Rest Call to http://localhost:8888/PiService/rest/hello/getWeather/London
