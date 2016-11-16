@@ -3,6 +3,8 @@ package com.marc.rest.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.marc.rest.connection.WeatherConnector;
+import com.marc.rest.geo.GeoConnector;
 import org.junit.Test;
 
 import javax.ws.rs.core.StreamingOutput;
@@ -62,6 +64,12 @@ public class TestJSONOwnSimpleParser {
         System.out.println(((Map<String, Object>)map.get("main")).get("temp"));
 
 
+    }
+
+    @Test
+    public void testWeatherConnector() throws Exception {
+        GeoConnector geoConnector = new GeoConnector();
+        geoConnector.getLocation(51.45212424934954+"", 12.135772705078125+"");
     }
 
     private static URI getBaseURI(String town) {
