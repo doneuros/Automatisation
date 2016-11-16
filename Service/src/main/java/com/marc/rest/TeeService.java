@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.marc.rest.weather.Weather;
 
-@Path("/service")
+@Path("/tee")
 public class TeeService {
 
     final static Logger logger = Logger.getLogger(TeeService.class);
@@ -19,13 +19,7 @@ public class TeeService {
     private WeatherConnector weatherConnector = new WeatherConnector();
     private String homeLocation = "Karlsruhe";
 
-    @GET
-    @Path("test/{param}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getMsg(@PathParam("param") String msg) {
-        String output = "Jersey say : " + msg;
-        return Response.status(200).entity(output).build();
-    }
+
 
     @GET
     @Path("/getWeather/{param}")

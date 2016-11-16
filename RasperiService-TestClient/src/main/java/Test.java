@@ -37,7 +37,7 @@ public class Test {
      * Rest Call to http://localhost:8888/PiService/rest/service/test/Hallo
      */
     public static void testGetMsg(WebTarget target){
-        String response = target.path("rest/service/").
+        String response = target.path("rest/tee/").
                 path("test/Hallo").
                 request().
                 accept(MediaType.APPLICATION_JSON).
