@@ -1,6 +1,7 @@
 package com.marc.rest.cache;
 
 import com.marc.rest.weather.Weather;
+import net.aksingh.owmjapis.CurrentWeather;
 import org.joda.time.DateTime;
 
 /**

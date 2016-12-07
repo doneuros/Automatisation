@@ -2,19 +2,15 @@ package com.marc.rest.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.marc.rest.connection.WeatherConnector;
 import com.marc.rest.geo.GeoConnector;
 import org.junit.Test;
 
-import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriBuilder;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;

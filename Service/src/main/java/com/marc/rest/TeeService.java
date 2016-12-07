@@ -6,11 +6,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.marc.rest.cache.InternalCache;
-import com.marc.rest.connection.WeatherConnector;
+import com.marc.rest.weather.WeatherConnector;
 import com.marc.rest.geo.GeoConnector;
 import org.apache.log4j.Logger;
 
 import com.marc.rest.weather.Weather;
+
+import java.io.IOException;
 
 @Path("/tee")
 public class TeeService {
@@ -22,24 +24,32 @@ public class TeeService {
     private String homeLocation = "Karlsruhe";
 
 
+    private Response getIOExceptionMapped(){
+        return Response.status(502).entity("Fehler beim lesen der Wetter daten").build();
+    }
 
     @GET
     @Path("/getWeather/{param}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWeather(@PathParam("param") String msg) {
-        return Response.status(200).entity(weatherResponse(getWeatherInternal(msg))).build();
+        try {
+            return Response.status(200).entity(getWeatherInternal(msg).toString()).build();
+        } catch (IOException e) {
+            return getIOExceptionMapped();
+        }
     }
 
-    private String weatherResponse(Weather weather) {
-        return "Momentan entspricht das Wetter: " + weather.getDescription() + "\n"
-                + " es hat " + weather.getTempratureInCalcius() + " Celcius";
-    }
+
 
     @GET
     @Path("/getTemprature")
     @Produces(MediaType.APPLICATION_JSON)
-    public double getTemprature(){
-        return getWeatherInternal(homeLocation).getTemprature();
+    public Response getTemprature(){
+        try {
+            return Response.status(200).entity(getWeatherInternal(homeLocation).getTemprature()).build();
+        } catch (IOException e) {
+            return getIOExceptionMapped();
+        }
     }
 
     @PUT
@@ -57,10 +67,14 @@ public class TeeService {
         logger.info("makeTee started");
         String msg = geoConnector.getLocation(curLatitude, curLongitude).getCity();
         logger.info("makeTee ended");
-        return Response.status(200).entity(weatherResponse(getWeatherInternal(msg))).build();
+        try {
+            return Response.status(200).entity(getWeatherInternal(msg).toString()).build();
+        } catch (IOException e) {
+            return getIOExceptionMapped();
+        }
     }
 
-    private Weather getWeatherInternal(String location){
+    private Weather getWeatherInternal(String location) throws IOException {
         Weather weather;
         if(weatherCache.isCached(location)){
             logger.info("Location LoadedFrom Cache");

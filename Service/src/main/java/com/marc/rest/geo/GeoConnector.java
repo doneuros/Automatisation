@@ -2,8 +2,7 @@ package com.marc.rest.geo;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marc.rest.connection.WeatherConnector;
-import com.marc.rest.weather.Weather;
+import com.marc.rest.weather.WeatherConnector;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.core.UriBuilder;

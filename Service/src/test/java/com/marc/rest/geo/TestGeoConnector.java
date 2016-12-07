@@ -17,7 +17,7 @@ public class TestGeoConnector {
         ObjectMapper objectMapper = new ObjectMapper();
         GeoConnector geoConnector = new GeoConnector();
         Map<String, Object> map = objectMapper.readValue(getHttpRequestWithDoubleQuote(), new TypeReference<Map<String,Object>>(){});
-        assertEquals("Berlin",geoConnector.JSONParsingCity(map));
+        assertEquals("Mitte",geoConnector.JSONParsingCity(map));
 
 
     }

@@ -1,42 +1,39 @@
 package com.marc.rest.weather;
 
-import com.marc.rest.json.AbstractJSONClass;
-
 /**
- * Created by marc on 20.10.16.
+ * Created by marc on 07.12.16.
  */
-public class Weather extends AbstractJSONClass {
+public class Weather {
 
+    private boolean hasRain;
+    private float temprature;
 
-    private double temprature;
-
-    private String description;
-
-    public Weather() {
-    }
-
-    public Weather(double temprature, String description) {
+    public Weather(boolean hasRain, float temprature) {
+        this.hasRain = hasRain;
         this.temprature = temprature;
-        this.description = description;
     }
 
-    public double getTempratureInCalcius(){
-        return temprature-273.15;
+    public boolean isHasRain() {
+        return hasRain;
     }
 
-    public double getTemprature() {
+    public void setHasRain(boolean hasRain) {
+        this.hasRain = hasRain;
+    }
+
+    public float getTemprature() {
         return temprature;
     }
 
-    public void setTemprature(double temprature) {
+    public void setTemprature(float temprature) {
         this.temprature = temprature;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "Regnerisch=" + hasRain +
+                ", temprature=" + temprature +
+                '}';
     }
 }

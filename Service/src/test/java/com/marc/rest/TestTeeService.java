@@ -1,12 +1,8 @@
 package com.marc.rest;
 
-import com.marc.rest.connection.WeatherConnector;
-import com.marc.rest.weather.Weather;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import javax.ws.rs.core.Application;
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 import org.glassfish.jersey.server.ResourceConfig;
 

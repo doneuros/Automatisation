@@ -67,10 +67,24 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
         </dependency>
+        <!--https://bitbucket.org/akapribot/owm-japis/src-->
+        <dependency>
+            <groupId>net.aksingh</groupId>
+            <artifactId>owm-japis</artifactId>
+            <version>2.5.0.3</version>
+        </dependency>
+
 
 
 
     </dependencies>
+    <repositories>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
+
 
 </project>
 
