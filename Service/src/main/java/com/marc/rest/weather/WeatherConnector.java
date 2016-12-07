@@ -1,5 +1,7 @@
 package com.marc.rest.weather;
 
+import com.marc.rest.geo.OwnLatLng;
+import com.marc.rest.sensitive.SensitiveKeys;
 import org.apache.log4j.Logger;
 
 
@@ -18,15 +20,15 @@ public class WeatherConnector {
     private OpenWeatherMap owm;
 
     public WeatherConnector(){
-        owm = new OpenWeatherMap("738192430eb7328f8a5b9a7cbdab6b45");
+        owm = new OpenWeatherMap(SensitiveKeys.owmKey);
     }
 
     public void setOpenWeatherMap(OpenWeatherMap owm){
         this.owm = owm;
     }
 
-    public Weather getWeather(String latidude, String longitude) throws IOException {
-        CurrentWeather currentWeather = owm.currentWeatherByCoordinates(Float.parseFloat(latidude),Float.parseFloat(longitude));
+    public Weather getWeather(OwnLatLng latLng) throws IOException {
+        CurrentWeather currentWeather = owm.currentWeatherByCoordinates(latLng.getLat(),latLng.getLng());
         return getWeatherInternal(currentWeather);
     }
 

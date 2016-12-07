@@ -1,5 +1,6 @@
 package com.marc.rest;
 
+import com.marc.rest.geo.OwnLatLng;
 import com.marc.rest.internal.OwnerLocation;
 
 import javax.ws.rs.*;
@@ -24,18 +25,15 @@ public class LocationService {
     @Path("/latitude/{latitude}/longitude/{longitude}/city/{city}")
     @Consumes(MediaType.APPLICATION_JSON)
     private Response setOwnerLocatin(@PathParam("latitude")String lat, @PathParam("longitude")String lon, @PathParam("city")String city){
-        setLatitude(lat);
-        setLongitutde(lon);
+        setLatLng(lat, lon);
         setCity(city);
         return Response.status(200).build();
     }
 
-    private void setLatitude(String lat){
-        OwnerLocation.getInstance().setLat(Double.parseDouble(lat));
-    }
 
-    private void setLongitutde(String lon){
-        OwnerLocation.getInstance().setLon(Double.parseDouble(lon));
+
+    private void setLatLng(String lat, String lon){
+        OwnerLocation.getInstance().setLatLon(new OwnLatLng(Float.parseFloat(lat), Float.parseFloat(lon)));
     }
 
     private void setCity(String city){

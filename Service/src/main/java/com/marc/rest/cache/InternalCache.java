@@ -1,5 +1,7 @@
 package com.marc.rest.cache;
 
+import com.marc.rest.geo.OwnLatLng;
+import com.marc.rest.internal.OwnerLocation;
 import com.marc.rest.weather.Weather;
 import net.aksingh.owmjapis.CurrentWeather;
 import org.joda.time.DateTime;
@@ -27,12 +29,12 @@ public class InternalCache {
         return false;
     }
 
-    public boolean isCached(String longitude, String latitude){
-        return isCached(convertCordinatesToLocation(longitude, latitude));
+    public boolean isCached(OwnLatLng latLng){
+        return isCached(latLng.getKey());
     }
 
-    public void save(Weather weather, String longitude, String latitude){
-        save(weather, convertCordinatesToLocation(longitude, latitude));
+    public void save(Weather weather, OwnLatLng latLng){
+        save(weather, latLng.getKey());
     }
 
     public void save(Weather weather, String location){
@@ -40,8 +42,8 @@ public class InternalCache {
         weatherMap.put(location, meta);
     }
 
-    public Weather getWeather(String longitude, String latitude){
-        return getWeather(convertCordinatesToLocation(longitude, latitude));
+    public Weather getWeather(OwnLatLng latLng){
+        return getWeather(latLng.getKey());
     }
 
     public Weather getWeather(String location){
@@ -52,9 +54,6 @@ public class InternalCache {
         return result.getWeather();
     }
 
-    private String convertCordinatesToLocation(String longitude, String latitude){
-        //TODO maybe Key as Class
-        return longitude+","+latitude;
-    }
+
 
 }

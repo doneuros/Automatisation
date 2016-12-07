@@ -65,7 +65,7 @@ public class TestJSONOwnSimpleParser {
     @Test
     public void testWeatherConnector() throws Exception {
         GeoConnector geoConnector = new GeoConnector();
-        geoConnector.getLocation(51.45212424934954+"", 12.135772705078125+"");
+        //geoConnector.getLocation(51.45212424934954+"", 12.135772705078125+"");
     }
 
     private static URI getBaseURI(String town) {

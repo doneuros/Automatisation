@@ -1,5 +1,6 @@
 package com.marc.rest.cache;
 
+import com.marc.rest.geo.OwnLatLng;
 import com.marc.rest.weather.Weather;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -16,9 +17,10 @@ public class InternalCacheTest {
     private InternalCache internalCache;
     private static long dayMillis = 1000*60*60*24;
     private static  long trashhold = 85465;
-    String latitude = "1";
-    String longitude ="2";
+    float latitude = 1;
+    float longitude =2;
     String location = "Berlin";
+    OwnLatLng latLng = new OwnLatLng(latitude,longitude);
 
     @Test
     public void testCache(){
@@ -55,19 +57,20 @@ public class InternalCacheTest {
     @Test
     public void testCacheCoordiantes(){
         DateTimeUtils.setCurrentMillisOffset(0);
+
         internalCache = new InternalCache();
-        assertFalse(internalCache.isCached(latitude,longitude));
-        assertNull(internalCache.getWeather(latitude,longitude));
-        internalCache.save(new Weather(true, 20), latitude,longitude);
-        assertTrue(internalCache.isCached(latitude,longitude));
-        assertEquals(internalCache.getWeather(latitude,longitude).getTemprature(), 20.0, 0.1);
+        assertFalse(internalCache.isCached(latLng));
+        assertNull(internalCache.getWeather(latLng));
+        internalCache.save(new Weather(true, 20), latLng);
+        assertTrue(internalCache.isCached(latLng));
+        assertEquals(internalCache.getWeather(latLng).getTemprature(), 20.0, 0.1);
 
         DateTimeUtils.setCurrentMillisOffset(dayMillis-trashhold);
-        assertTrue(internalCache.isCached(latitude,longitude));
+        assertTrue(internalCache.isCached(latLng));
         System.out.println((new DateTime().getDayOfMonth()+""));
         DateTimeUtils.setCurrentMillisOffset(dayMillis+trashhold);
         System.out.println((new DateTime().getDayOfMonth()+""));
-        assertFalse(internalCache.isCached(latitude,longitude));
+        assertFalse(internalCache.isCached(latLng));
     }
 
     @Test
@@ -75,12 +78,12 @@ public class InternalCacheTest {
         DateTimeUtils.setCurrentMillisOffset(0);
         internalCache = new InternalCache();
         DateTimeUtils.setCurrentMillisFixed(dayMillis*30);
-        internalCache.save(new Weather(true, 20), latitude,longitude);
-        assertTrue(internalCache.isCached(latitude,longitude));
+        internalCache.save(new Weather(true, 20), latLng);
+        assertTrue(internalCache.isCached(latLng));
         //System.out.println((new DateTime().toString()+""));
         DateTimeUtils.setCurrentMillisFixed(dayMillis*31);
         //System.out.println((new DateTime().toString()+""));
-        assertFalse(internalCache.isCached(latitude,longitude));
+        assertFalse(internalCache.isCached(latLng));
         DateTimeUtils.setCurrentMillisFixed(0);
     }
 }

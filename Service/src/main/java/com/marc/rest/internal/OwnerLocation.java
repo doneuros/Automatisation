@@ -1,11 +1,12 @@
 package com.marc.rest.internal;
 
+import com.marc.rest.geo.OwnLatLng;
+
 /**
  * Created by marc on 07.12.16.
  */
 public class OwnerLocation {
-    private double lon;
-    private double lat;
+    private OwnLatLng latLon;
     private String city;
     private static final OwnerLocation INSTANCE = new OwnerLocation();
 
@@ -13,20 +14,12 @@ public class OwnerLocation {
         return INSTANCE;
     }
 
-    public double getLon() {
-        return lon;
+    public OwnLatLng getLatLon() {
+        return latLon;
     }
 
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setLatLon(OwnLatLng latLon) {
+        this.latLon = latLon;
     }
 
     public String getCity() {
@@ -36,4 +29,6 @@ public class OwnerLocation {
     public void setCity(String city) {
         this.city = city;
     }
+
+
 }
