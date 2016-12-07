@@ -11,6 +11,8 @@
 # Mac
 .DS_Store
 
+SensitiveKeys.class
+
 # Maven
 log/
 target/
