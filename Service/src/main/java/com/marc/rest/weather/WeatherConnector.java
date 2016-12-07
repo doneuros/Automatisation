@@ -39,7 +39,17 @@ public class WeatherConnector {
         if(!currentWeather.isValid()){
             throw new IOException("Weather Info are not falid");
         }
-        Weather weather = new Weather(currentWeather.getRainInstance().hasRain(), currentWeather.getMainInstance().getTemperature());
+        Weather weather = new Weather();
+        if(currentWeather.getRainInstance()!=null){
+            weather.setHasRain(false);
+        }
+        if(currentWeather.getMainInstance()!=null){
+            weather.setTemprature(currentWeather.getMainInstance().getTemperature());
+        }
+
+
+
         return  weather;
+
     }
 }

@@ -13,6 +13,10 @@ public class Weather {
         this.temprature = temprature;
     }
 
+    public Weather() {
+
+    }
+
     public boolean isHasRain() {
         return hasRain;
     }
