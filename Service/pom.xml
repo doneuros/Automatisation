@@ -73,6 +73,11 @@
             <artifactId>owm-japis</artifactId>
             <version>2.5.0.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.maps</groupId>
+            <artifactId>google-maps-services</artifactId>
+            <version>0.1.17</version>
+        </dependency>
 
 
 
