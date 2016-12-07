@@ -29,6 +29,10 @@ public class Weather {
         return temprature;
     }
 
+    public float getTempratureCelcius(){
+        return (temprature-32)/1800;
+    }
+
     public void setTemprature(float temprature) {
         this.temprature = temprature;
     }
@@ -37,7 +41,7 @@ public class Weather {
     public String toString() {
         return "Weather{" +
                 "Regnerisch=" + hasRain +
-                ", temprature=" + temprature +
+                ", temprature=" + getTempratureCelcius() +
                 '}';
     }
 }
