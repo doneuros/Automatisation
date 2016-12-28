@@ -28,7 +28,8 @@ public class WeatherConnector {
     }
 
     public Weather getWeather(OwnLatLng latLng) throws IOException {
-        CurrentWeather currentWeather = owm.currentWeatherByCoordinates(latLng.getLat(),latLng.getLng());
+
+        CurrentWeather currentWeather = owm.currentWeatherByCoordinates((float)latLng.getLat(),(float)latLng.getLng());
         return getWeatherInternal(currentWeather);
     }
 
@@ -39,7 +40,7 @@ public class WeatherConnector {
 
     private Weather getWeatherInternal(CurrentWeather currentWeather) throws IOException {
         if(!currentWeather.isValid()){
-            throw new IOException("Weather Info are not falid");
+            throw new IOException("Weather Info are not valid");
         }
         Weather weather = new Weather();
         if(currentWeather.getRainInstance()!=null){

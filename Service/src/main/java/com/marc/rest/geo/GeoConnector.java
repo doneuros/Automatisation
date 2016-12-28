@@ -6,10 +6,12 @@ import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.*;
+import com.marc.rest.internal.OwnerLocation;
 import com.marc.rest.sensitive.SensitiveKeys;
 import com.marc.rest.weather.WeatherConnector;
 import org.apache.log4j.Logger;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,10 +30,10 @@ import static com.marc.rest.sensitive.SensitiveKeys.googleApiKey;
  */
 public class GeoConnector {
 
-    public void getDistance(String lngOrigin, String latOrigin, String lngDest, String latDest, TravelMode mode){
+    public long getDistance(OwnLatLng latLng, OwnLatLng dest, TravelMode mode) {
         GeoApiContext context = new GeoApiContext().setApiKey(googleApiKey);
-        LatLng origin = new LatLng(Double.parseDouble(latOrigin), Double.parseDouble(lngOrigin));
-        LatLng destination = new LatLng(Double.parseDouble(latDest), Double.parseDouble(lngDest));
+        LatLng origin = latLng.convertToGoogleLatLng();
+        LatLng destination = dest.convertToGoogleLatLng();
         try {
             DistanceMatrix matrix = DistanceMatrixApi.newRequest(context).
                     origins(origin).
@@ -39,15 +41,30 @@ public class GeoConnector {
                     mode(mode).
                     units(Unit.IMPERIAL).
                     await();
-            for(DistanceMatrixRow row:matrix.rows){
-                for(DistanceMatrixElement element:row.elements){
-                    System.out.println(element.distance);
+            for (DistanceMatrixRow row : matrix.rows) {
+                for (DistanceMatrixElement element : row.elements) {
+                    if (element != null && element.duration != null) {
+                        return element.duration.inSeconds;
+                    }
+
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return Long.MIN_VALUE;
 
     }
+
+    public long getDistance(String lat, String lon, String mode) {
+        OwnerLocation homeLocation = OwnerLocation.getInstance();
+        OwnLatLng actualLocation;
+        TravelMode travelMode;
+        actualLocation = new OwnLatLng(Double.parseDouble(lat), Double.parseDouble(lon));
+        travelMode = TravelMode.valueOf(mode.toUpperCase());
+        return getDistance(homeLocation.getLatLon(), actualLocation, travelMode);
+    }
+
+
+
 }

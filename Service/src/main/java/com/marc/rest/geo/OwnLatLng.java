@@ -1,19 +1,21 @@
 package com.marc.rest.geo;
 
+import com.google.maps.model.LatLng;
+
 /**
  * Created by marc on 07.12.16.
  */
 public class OwnLatLng {
-    private float lat;
-    private float lng;
+    private double lat;
+    private double lng;
 
-    public OwnLatLng(float lat, float lng) {
+    public OwnLatLng(double lat, double lng) {
         this.lat = lat;
-        this.lat = lng;
+        this.lng = lng;
 
     }
 
-    public float getLat() {
+    public double getLat() {
         return lat;
     }
 
@@ -21,7 +23,7 @@ public class OwnLatLng {
         this.lat = lat;
     }
 
-    public float getLng() {
+    public double getLng() {
         return lng;
     }
 
@@ -31,5 +33,9 @@ public class OwnLatLng {
 
     public String getKey() {
         return lat+","+lng;
+    }
+
+    public LatLng convertToGoogleLatLng(){
+        return  new LatLng(lat, lng);
     }
 }
