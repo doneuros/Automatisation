@@ -1,6 +1,6 @@
 package com.marc.rest;
 
-
+import com.marc.arduino.ArduRasPi;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import com.marc.rest.weather.Weather;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 @Path("/tee")
 public class TeeService {
@@ -25,7 +26,7 @@ public class TeeService {
     private static InternalCache weatherCache = new InternalCache();
     private WeatherConnector weatherConnector = new WeatherConnector();
     private GeoConnector geoConnector = new GeoConnector();
-
+    private ArduRasPi pi = new ArduRasPi();
 
     private Response getIOExceptionMapped() {
         return Response.status(502).entity("Fehler beim lesen der Wetter daten").build();
@@ -76,7 +77,12 @@ public class TeeService {
             OwnLatLng latLng = new OwnLatLng(Float.parseFloat(curLatitude), Float.parseFloat(curLongitude));
             Weather weather = getWeatherInternal(latLng);
             long distanceInSeconds = getDistance(curLatitude, curLongitude);
-            //TODO send message to arduino
+            try {
+                pi.connect();
+                pi.streamOut.write(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return Response.status(200).entity(weather.toString()+" Distance:"+distanceInSeconds).build();
         } catch (IOException e) {
             return getIOExceptionMapped();

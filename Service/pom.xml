@@ -51,11 +51,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
             <artifactId>jersey-test-framework-provider-inmemory</artifactId>
             <version>2.24</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
