@@ -28,7 +28,7 @@ public class ArduRasPi {
 
 		try {
 			portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
-		} catch (gnu.io.NoSuchPortException e) {
+		} catch (Exception e) {
 			System.out.println("Port not found, listing available ports...");
 			java.util.Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers();
 			while (portEnum.hasMoreElements())
