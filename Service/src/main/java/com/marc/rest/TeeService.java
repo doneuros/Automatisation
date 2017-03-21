@@ -4,6 +4,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.RuntimeDelegate;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteException;
 
 import com.google.maps.model.TravelMode;
 import com.marc.rest.cache.InternalCache;
@@ -79,16 +82,10 @@ public class TeeService {
             try {
 
 
-                ProcessBuilder pb = new ProcessBuilder("python","script.py");
-
-                logger.info(pb.directory());
-                pb.directory(new File("/home/pi/"));
-                logger.info(pb.directory());
-                Process p = pb.start();
-                ProcessBuilder pb2 = new ProcessBuilder("runPython.sh");
-                pb2.directory(new File("/home/pi/"));
-                pb2.start();
-
+                CommandLine oCmdLine = CommandLine.parse("sudo python /home/pi/script.py");
+                DefaultExecutor oDefaultExecutor = new DefaultExecutor();
+                oDefaultExecutor.setExitValue(0);
+                oDefaultExecutor.execute(oCmdLine);
             }catch(Exception e){
                 e.printStackTrace();
             }
